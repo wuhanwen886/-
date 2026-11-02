@@ -1,5 +1,4 @@
-"
-""生成 GITHUB_CODE.md：按文件列出完整源码，方便复制到 GitHub。"""
+"""生成 GITHUB_CODE.md：按文件列出完整源码，方便复制到 GitHub。"""
 from __future__ import annotations
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
