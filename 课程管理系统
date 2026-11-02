@@ -1,0 +1,70 @@
+"
+""生成 GITHUB_CODE.md：按文件列出完整源码，方便复制到 GitHub。"""
+from __future__ import annotations
+from pathlib import Path
+ROOT = Path(__file__).resolve().parent.parent
+FILES = [
+    ("app.py", "python"),
+    ("database.py", "python"),
+    ("services.py", "python"),
+    ("web.py", "python"),
+    ("static/index.html", "html"),
+    ("static/styles.css", "css"),
+    ("static/js/core.js", "javascript"),
+    ("static/js/app.js", "javascript"),
+    ("static/js/pages/overview.js", "javascript"),
+    ("static/js/pages/booking.js", "javascript"),
+    ("static/js/pages/courses.js", "javascript"),
+    ("static/js/pages/classrooms.js", "javascript"),
+    ("static/js/pages/schedule.js", "javascript"),
+    ("tests/test_services.py", "python"),
+    ("README.md", "markdown"),
+    ("start.bat", "bat"),
+    (".gitignore", "text"),
+]
+HEADER = """# 知行教室 · 完整源码（按文件复制到 GitHub）
+本文档包含项目的全部可复制源码。按顺序在 GitHub 新建同名文件，粘贴对应代码块即可。
+> `docs/screenshots/` 是二进制截图，不适合粘贴；可稍后通过 GitHub 的 **Upload files** 上传，README 中的图片就会正常显示。
+> `data/` 数据库和缓存不会提交，首次运行会自动生成。
+## 在 GitHub 网页中创建
+1. 新建一个空仓库。
+2. 点击 **Add file → Create new file**。
+3. 文件名填写 `app.py`，粘贴下方 `app.py` 代码块，提交。
+4. 继续 **Create new file**，文件名填写 `database.py`，粘贴对应代码块。
+5. 文件名中带 `/` 会自动创建目录，例如 `static/styles.css`、`static/js/pages/overview.js`。
+6. 所有文件创建完成后，在本地或 Codespaces 中运行：
+```bash
+python app.py
+```
+然后访问 `http://127.0.0.1:8000`。
+## 文件清单
+| 文件 | 作用 |
+|---|---|
+| `app.py` | 启动入口 |
+| `database.py` | 建表、密码工具、演示数据 |
+| `services.py` | 认证、空闲计算、课程与借用规则 |
+| `web.py` | HTTP API、静态资源、会话与 CSRF |
+| `static/index.html` | 页面入口 |
+| `static/styles.css` | 全部样式 |
+| `static/js/core.js` | 工具、API、弹窗 |
+| `static/js/app.js` | 登录、路由、应用外壳 |
+| `static/js/pages/overview.js` | 教室总览 |
+| `static/js/pages/booking.js` | 借用、我的借用、借用管理 |
+| `static/js/pages/courses.js` | 课程管理 |
+| `static/js/pages/classrooms.js` | 教室管理 |
+| `static/js/pages/schedule.js` | 周课表 |
+| `tests/test_services.py` | 业务测试 |
+| `README.md` | 项目说明 |
+| `start.bat` | Windows 启动脚本 |
+| `.gitignore` | Git 忽略规则 |
+---
+"""
+parts = [HEADER]
+for relative, language in FILES:
+    path = ROOT / relative
+    text = path.read_text(encoding="utf-8")
+    fence = "`````"
+    parts.append(f"\n## `{relative}`\n\n{fence}{language}\n{text.rstrip()}\n{fence}\n")
+output = ROOT / "GITHUB_CODE.md"
+output.write_text("\n".join(parts), encoding="utf-8")
+print(f"Wrote {output} ({output.stat().st_size} bytes)")
